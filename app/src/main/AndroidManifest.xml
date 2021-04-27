@@ -9,25 +9,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".ui.FinishOrderActivity"></activity>
+        <activity android:name=".ui.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.FinishOrderActivity" />
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
         -->
-
-
         <activity android:name=".ui.CheckoutActivity" />
         <activity android:name=".ui.My_Orders" />
         <activity android:name=".ui.ProductsDetailsActivity" />
         <activity android:name=".ui.SearchActivity" />
         <activity android:name=".ui.CartSettingsActivity" />
         <activity android:name=".ui.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
