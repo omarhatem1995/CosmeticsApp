@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Blaum</string>
+    <string name="hi_sheraa">Hi Sheraa ,</string>
+    <string name="welcome_to_our_store">Welcome to our store</string>
+    <string name="images_desc">-</string>
+    <string name="reviews">Reviews</string>
+    <string name="details">Details</string>
+    <string name="brand">BRAND</string>
+    <string name="serial">Serial</string>
+    <string name="material">Material</string>
+    <string name="condition">Condition</string>
+    <string name="category">Category</string>
+    <string name="add_to_cart">ADD TO CART</string>
+    <string name="cancel">CANCEL</string>
+    <string name="total">TOTAL</string>
+    <string name="checkout">CHECKOUT</string>
+    <string name="place_order">PLACE ORDER</string>
+    <string name="title_activity_finish_order">FinishOrder</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
+
+</resources>

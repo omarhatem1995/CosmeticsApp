@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.My_Orders">
+    <ImageView
+        android:layout_width="13.5dp"
+        android:layout_height="22dp"
+        android:id="@+id/back_arrow"
+        android:src="@drawable/ic_backarrow"
+        android:layout_marginEnd="17.5dp"
+        app:layout_constraintTop_toTopOf="@id/cart_settings"
+        app:layout_constraintBottom_toBottomOf="@id/cart_settings"
+        app:layout_constraintEnd_toStartOf="@id/cart_settings"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cart_settings"
+        android:layout_marginStart="57dp"
+        android:layout_marginTop="53dp"
+        android:text="Cart Settings"
+        android:textStyle="normal"
+        android:textSize="24sp"
+        android:fontFamily="@font/medium"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+
+    <ImageView
+        android:id="@+id/cart_my_orders"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="80dp"
+        android:src="@drawable/ic_basket"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/cart_settings" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cart_my_orders_container"
+        android:layout_width="12dp"
+        android:layout_height="14dp"
+        android:layout_marginTop="63dp"
+        android:layout_marginEnd="8dp"
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:cardCornerRadius="50dp"
+        app:layout_constraintEnd_toEndOf="@id/cart_my_orders"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/cart_my_orders_counter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6"
+                android:textColor="@color/appWhite"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+    <ImageView
+        android:id="@+id/notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="42dp"
+        android:src="@drawable/ic_notification"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/cart_settings" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/notification_number_container"
+        android:layout_width="12dp"
+        android:layout_height="14dp"
+        android:layout_marginTop="63dp"
+        android:layout_marginEnd="8dp"
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:cardCornerRadius="50dp"
+        app:layout_constraintEnd_toEndOf="@id/notification"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/notification_counter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textColor="@color/appWhite"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+    <ImageView
+        android:id="@+id/menu_imageview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:focusable="false"
+        android:src="@drawable/ic_menu"
+        app:layout_constraintBottom_toBottomOf="@id/notification"
+        app:layout_constraintStart_toEndOf="@id/notification"
+        app:layout_constraintTop_toTopOf="@id/notification" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:id="@+id/recyclerview_my_orders"
+        android:layout_marginTop="120dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/my_orders_item"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/total"
+        android:textColor="@color/hintColor"
+        android:text="@string/total"
+        android:layout_marginStart="40dp"
+        android:textSize="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/recyclerview_my_orders"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/total_text"
+        android:textColor="@color/colorPrimary"
+        android:text="@string/total"
+        android:textSize="20sp"
+        android:fontFamily="@font/bold"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@id/total"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/letext"
+        android:textColor="@color/colorPrimary"
+        android:text="LE"
+        android:layout_marginStart="2dp"
+        android:textSize="20sp"
+        android:fontFamily="@font/bold"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@id/total"
+        app:layout_constraintStart_toEndOf="@id/total_text"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/freeshipping"
+        android:textColor="@color/colorPrimary"
+        android:text="Free Shipping"
+        android:layout_marginStart="2dp"
+        android:fontFamily="@font/medium"
+        android:textSize="12sp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@id/total_text"
+        app:layout_constraintStart_toStartOf="@id/total_text"/>
+
+    <Button
+        android:layout_width="143dp"
+        android:layout_height="40dp"
+        android:id="@+id/checkout"
+        android:background="@drawable/curved_button"
+        android:textStyle="normal"
+        android:text="@string/checkout"
+        android:layout_marginEnd="20dp"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="30dp"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

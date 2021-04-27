@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="text_tiny">12sp</dimen>
+    <dimen name="text_small">14sp</dimen>
+    <dimen name="text_below_medium">16sp</dimen>
+    <dimen name="text_medium">18sp</dimen>
+    <dimen name="text_large">22sp</dimen>
+    <dimen name="appbar_padding_top">8dp</dimen>
+
+    <dimen name="font_titles">20sp</dimen>
+    <dimen name="font_text_normal">17sp</dimen>
+    <dimen name="font_text_large">21sp</dimen>
+
+    <!--General-->
+    <dimen name="app_default_vertical_margin">8dp</dimen>
+    <dimen name="app_default_horizontal_margin">8dp</dimen>
+    <dimen name="app_medium_vertical_margin">16dp</dimen>
+    <dimen name="app_medium_horizontal_margin">16dp</dimen>
+    <dimen name="app_large_vertical_margin">24dp</dimen>
+    <dimen name="app_large_horizontal_margin">24dp</dimen>
+    <dimen name="app_default_elevation">8dp</dimen>
+    <dimen name="app_default_padding">8dp</dimen>
+</resources>

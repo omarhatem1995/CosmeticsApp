@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.CheckoutActivity">
+    <ImageView
+        android:layout_width="13.5dp"
+        android:layout_height="22dp"
+        android:id="@+id/back_arrow"
+        android:src="@drawable/ic_backarrow"
+        android:layout_marginEnd="17.5dp"
+        app:layout_constraintTop_toTopOf="@id/cart_settings"
+        app:layout_constraintBottom_toBottomOf="@id/cart_settings"
+        app:layout_constraintEnd_toStartOf="@id/cart_settings"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cart_settings"
+        android:layout_marginStart="57dp"
+        android:layout_marginTop="53dp"
+        android:text="Cart Settings"
+        android:textStyle="normal"
+        android:textSize="24sp"
+        android:fontFamily="@font/medium"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+
+    <ImageView
+        android:id="@+id/cart_my_orders"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="80dp"
+        android:src="@drawable/ic_basket"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/cart_settings" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cart_my_orders_container"
+        android:layout_width="12dp"
+        android:layout_height="14dp"
+        android:layout_marginTop="63dp"
+        android:layout_marginEnd="8dp"
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:cardCornerRadius="50dp"
+        app:layout_constraintEnd_toEndOf="@id/cart_my_orders"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/cart_my_orders_counter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3"
+                android:textColor="@color/appWhite"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/shipping_address_checkout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="SHIPPING ADDRESS"
+        android:textColor="@color/hintColor"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="120dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/hi_sheraa_checkout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/shipping_address_checkout"
+        android:text="Sheraa Dera"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/bold"
+        android:textSize="20dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/street_checkout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hi_sheraa_checkout"
+        android:text="No 123 , Sub Street,"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/medium"
+        android:textSize="12dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/street_checkout2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/street_checkout"
+        android:text="Main Steet,"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/medium"
+        android:textSize="12dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="5dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/street_checkout3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/street_checkout2"
+        android:text="City Name, Province,"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/medium"
+        android:textSize="12dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="5dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/street_checkout4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/street_checkout3"
+        android:text="Country"
+        android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/medium"
+        android:textSize="12dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="5dp"/>
+
+    <ImageView
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:src="@drawable/view_notification_icon"
+        app:layout_constraintTop_toTopOf="@id/my_orders_next"
+        app:layout_constraintBottom_toBottomOf="@id/my_orders_next"
+        app:layout_constraintStart_toStartOf="@id/my_orders_next"
+        app:layout_constraintEnd_toEndOf="@id/my_orders_next"/>
+    <ImageView
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:id="@+id/my_orders_next"
+        android:src="@drawable/ic_next"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="200dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <View
+        android:layout_width="350dp"
+        android:layout_height="1dp"
+        android:background="@color/grey"
+        android:id="@+id/view"
+        app:layout_constraintEnd_toEndOf="@id/my_orders_next"
+        app:layout_constraintTop_toBottomOf="@id/street_checkout3"
+        app:layout_constraintStart_toStartOf="@id/street_checkout3"
+        android:layout_marginTop="60dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/view"
+        app:layout_constraintStart_toStartOf="@id/street_checkout"
+        android:text="PAYMENT METHOD"
+        android:id="@+id/payment_method_checkout"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/hintColor"
+        android:textSize="@dimen/font_text_normal"
+        />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/imageview_mastercard"
+        app:layout_constraintStart_toStartOf="@id/payment_method_checkout"
+        app:layout_constraintTop_toBottomOf="@id/payment_method_checkout"
+        android:background="@drawable/ic_master"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Master Card ending **00"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toEndOf="@id/imageview_mastercard"
+        app:layout_constraintTop_toTopOf="@id/imageview_mastercard"/>
+    <ImageView
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:src="@drawable/view_notification_icon"
+        app:layout_constraintTop_toTopOf="@id/next"
+        app:layout_constraintBottom_toBottomOf="@id/next"
+        app:layout_constraintStart_toStartOf="@id/next"
+        app:layout_constraintEnd_toEndOf="@id/next"/>
+    <ImageView
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:id="@+id/next"
+        android:src="@drawable/ic_next"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/imageview_mastercard"
+        app:layout_constraintBottom_toBottomOf="@id/imageview_mastercard"
+        />
+    <View
+        android:layout_width="350dp"
+        android:layout_height="1dp"
+        android:background="@color/grey"
+        android:id="@+id/view2"
+        app:layout_constraintEnd_toEndOf="@id/my_orders_next"
+        app:layout_constraintTop_toBottomOf="@id/next"
+        app:layout_constraintStart_toStartOf="@id/street_checkout3"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/items"
+        android:text="ITEMS"
+        android:textColor="@color/hintColor"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@id/street_checkout"
+        app:layout_constraintTop_toBottomOf="@id/view2"
+        />
+
+    <ImageView
+        android:layout_width="79dp"
+        android:layout_height="79dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/item_image"
+        app:layout_constraintStart_toStartOf="@id/items"
+        app:layout_constraintTop_toBottomOf="@id/items"
+        android:background="@drawable/viola"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EBA - ACT"
+        android:id="@+id/name_checkout"
+        android:textSize="20sp"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginStart="30dp"
+        app:layout_constraintStart_toEndOf="@id/item_image"
+        app:layout_constraintTop_toTopOf="@id/item_image"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hair Lotion"
+        android:id="@+id/name_checkout2"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="@id/name_checkout"
+        app:layout_constraintTop_toBottomOf="@id/name_checkout"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="200 LE"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"
+        android:id="@+id/name_checkout3"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="@id/name_checkout2"
+        app:layout_constraintTop_toBottomOf="@id/name_checkout2"/>
+
+    <ImageView
+        android:layout_width="22.8dp"
+        android:layout_height="17.8dp"
+        android:id="@+id/promocode_image"
+        android:src="@drawable/ic_promo"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@id/item_image"
+        app:layout_constraintStart_toStartOf="@id/item_image"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/promocode_text"
+        android:text="Add Promo Code"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginStart="30dp"
+        app:layout_constraintStart_toStartOf="@id/promocode_image"
+        app:layout_constraintTop_toTopOf="@id/promocode_image"
+        app:layout_constraintBottom_toBottomOf="@id/promocode_image"/>
+    <ImageView
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:src="@drawable/view_notification_icon"
+        app:layout_constraintTop_toTopOf="@id/next_promo"
+        app:layout_constraintBottom_toBottomOf="@id/next_promo"
+        app:layout_constraintStart_toStartOf="@id/next_promo"
+        app:layout_constraintEnd_toEndOf="@id/next_promo"/>
+    <ImageView
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:id="@+id/next_promo"
+        android:src="@drawable/ic_next"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/promocode_text"
+        app:layout_constraintBottom_toBottomOf="@id/promocode_text"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/bot_rounded_view"
+        android:elevation="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/hintColor"
+            android:text="TOTAL"
+            android:id="@+id/total"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:text="200 LE"
+            android:textStyle="bold"
+            android:id="@+id/price"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="@id/total"
+            app:layout_constraintTop_toBottomOf="@id/total"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:text="Free Shipping"
+            android:textStyle="normal"
+            android:id="@+id/order"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="@id/price"
+            app:layout_constraintTop_toBottomOf="@id/price"/>
+
+        <Button
+            android:layout_width="143dp"
+            android:layout_height="40dp"
+            android:id="@+id/place_order"
+            android:background="@drawable/curved_button"
+            android:textStyle="normal"
+            android:text="@string/place_order"
+            android:layout_marginEnd="20dp"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="30dp"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
