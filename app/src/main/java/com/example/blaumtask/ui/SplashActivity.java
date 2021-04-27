@@ -24,7 +24,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void initViews(){
         gif = findViewById(R.id.splash_gif);
-        Glide.with(this).asGif().load(R.raw.cosmetics_splash_screen).into(gif);
+        Glide.with(this).asGif().load(R.raw.animation).into(gif);
 
     }
 
