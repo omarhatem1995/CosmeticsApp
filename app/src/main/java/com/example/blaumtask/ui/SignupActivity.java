@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.blaumtask.R;
 import com.example.blaumtask.ui.SignupPresenter.SignupPresenter;
 import com.example.blaumtask.ui.SignupPresenter.SignupPresenterListener;
+import com.example.blaumtask.ui.utils.SpinnerDialog;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -29,6 +30,7 @@ public class SignupActivity extends AppCompatActivity implements SignupPresenter
     private String TAG = "SignupActivity";
 
     private SignupPresenter signupPresenter;
+    private SpinnerDialog spinnerDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +48,8 @@ public class SignupActivity extends AppCompatActivity implements SignupPresenter
         submit = findViewById(R.id.submit_signup);
 
         mAuth = FirebaseAuth.getInstance();
-
-        signupPresenter = new SignupPresenter(this,this);
+        spinnerDialog = new SpinnerDialog(this);
+        signupPresenter = new SignupPresenter(this,this, this);
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,12 +67,19 @@ public class SignupActivity extends AppCompatActivity implements SignupPresenter
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
-//            reload();
         }
     }
 
     @Override
-    public void submitLogin(String fullname, String email, String password) {
+    public void showProgress() {
+        if(spinnerDialog!=null)
+        spinnerDialog.show();
+    }
 
+    @Override
+    public void hideProgress() {
+        if(spinnerDialog!=null && spinnerDialog.isShowing()){
+            spinnerDialog.hide();
+        }
     }
 }

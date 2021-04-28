@@ -37,9 +37,12 @@ public class SignupPresenter {
 
     FirebaseFirestore firestore;
 
-    public SignupPresenter(Activity activity,Context context){
+    SignupPresenterListener signupPresenterListener;
+
+    public SignupPresenter(Activity activity,Context context,SignupPresenterListener signupPresenterListener){
         this.activity = activity;
         this.context = context;
+        this.signupPresenterListener = signupPresenterListener;
         firestore = FirebaseFirestore.getInstance();
     }
 
@@ -50,6 +53,8 @@ public class SignupPresenter {
         signupRequestModel.setFullname(fullName);
         signupRequestModel.setEmail(email);
         signupRequestModel.setPassword(password);
+
+        signupPresenterListener.showProgress();
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -68,14 +73,20 @@ public class SignupPresenter {
                                 @Override
                                 public void onSuccess(Void aVoid) {
 
+                                    signupPresenterListener.hideProgress();
+
                                     Log.d(TAG,"UserFirestore" + userId);
                                     startActivity(context,new Intent(activity, MainActivity.class),null);
+                                    activity.finishAffinity();
 
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
+
+                                    signupPresenterListener.hideProgress();
                                     Toast.makeText(activity, "Failed" + e.getMessage(), Toast.LENGTH_SHORT).show();
+
                                 }
                             });
                         } else {

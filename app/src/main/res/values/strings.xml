@@ -21,5 +21,10 @@
     values-round/strings.xml for round devices.
     -->
     <string name="hello_world">Hello Square World!</string>
+    <string name="register_now">Register Now</string>
+    <string name="please_enter_your_full_name">Please enter your full name</string>
+    <string name="please_enter_your_email">Please enter your email</string>
+    <string name="please_enter_your_passsword">Please enter your passsword</string>
+    <string name="submit">Submit</string>
 
 </resources>

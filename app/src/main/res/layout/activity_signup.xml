@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/signup_textview"
-        android:text="Register Now"
+        android:text="@string/register_now"
         android:fontFamily="@font/bold"
         android:textSize="22sp"
         android:textColor="@color/colorPrimary"
@@ -21,10 +21,13 @@
 
     <EditText
         android:id="@+id/fullname"
-        android:hint="Please enter your full name"
+        android:hint="@string/please_enter_your_full_name"
         android:background="@drawable/view_background_form"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:nextFocusDown="@id/email"
+        android:singleLine="true"
+        android:imeOptions="actionNext"
         android:paddingStart="8dp"
         android:layout_marginTop="20dp"
         android:layout_marginStart="12dp"
@@ -33,10 +36,13 @@
         app:layout_constraintTop_toBottomOf="@id/signup_textview"/>
     <EditText
         android:id="@+id/email"
-        android:hint="Please enter your email"
+        android:hint="@string/please_enter_your_email"
         android:background="@drawable/view_background_form"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:nextFocusDown="@id/password"
+        android:singleLine="true"
+        android:imeOptions="actionNext"
         android:paddingStart="8dp"
         android:layout_marginTop="20dp"
         android:layout_marginStart="12dp"
@@ -46,10 +52,12 @@
 
     <EditText
         android:id="@+id/password"
-        android:hint="Please enter your passsword"
+        android:hint="@string/please_enter_your_passsword"
         android:inputType="textPassword"
         android:background="@drawable/view_background_form"
         android:layout_width="match_parent"
+        android:singleLine="true"
+        android:imeOptions="actionNext"
         android:paddingStart="8dp"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
@@ -60,8 +68,9 @@
 
     <Button
         android:id="@+id/submit_signup"
-        android:text="Submit"
-        android:background="@drawable/view_background_form"
+        android:text="@string/submit"
+        android:textColor="@color/white"
+        android:background="@drawable/view_background_button_rounded"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
