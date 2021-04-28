@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "308371534158",
+    "project_id": "cosmeticsapplication-265bc",
+    "storage_bucket": "cosmeticsapplication-265bc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:308371534158:android:41c815b5b8267332fa6e1f",
+        "android_client_info": {
+          "package_name": "com.example.blaumtask"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "308371534158-mkekm8lhe2d9mu3n2lfbd3ies4q9b4e4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcTvn2z-PQIPAMBCFJM16jSzz2BLb007k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "308371534158-mkekm8lhe2d9mu3n2lfbd3ies4q9b4e4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -23,6 +23,7 @@ import com.example.blaumtask.ui.adapter.ProductsAdapter;
 import com.example.blaumtask.ui.adapter.RecyclerViewClickListener;
 import com.example.blaumtask.ui.models.ProductsModel;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -32,6 +33,9 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements RecyclerViewClickListener
 //        implements PopupMenu.OnMenuItemClickListener {
 {
+
+    private FirebaseAuth mAuth;
+
     ProductsAdapter productsAdapter;
     RecyclerView recyclerView;
     List<ProductsModel> productsModelArray;
@@ -52,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mAuth = FirebaseAuth.getInstance();
 
         menuImageView = findViewById(R.id.menu_imageview);
         constraintLayout = findViewById(R.id.constraint_layout);
@@ -172,7 +178,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         super.onResume();
         flagIntent = "1";
     }
-
     public void initPopMenu(View view){
         popup =  new PopupMenu(MainActivity.this, menuImageView);
 
@@ -199,9 +204,14 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
                     Intent intent = new Intent(MainActivity.this, CartSettingsActivity.class);
                     startActivity(intent);
                     return true;
-                }else {
-                    Toast.makeText(getApplicationContext(), "You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
+                }else if(item.getTitle().equals("Logout")) {
+                    mAuth.signOut();
+                    Intent intentLogout = new Intent(MainActivity.this,SignupActivity.class);
+                    startActivity(intentLogout);
                     return true;
+                }else {
+                        Toast.makeText(getApplicationContext(), "You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
+                        return true;
                 }
             }
         });
