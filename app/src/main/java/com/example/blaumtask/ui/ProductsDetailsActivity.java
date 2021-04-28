@@ -6,20 +6,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.blaumtask.R;
-import com.example.blaumtask.ui.adapter.RecentAdapter;
-import com.example.blaumtask.ui.adapter.ReviewsAdapter;
-import com.example.blaumtask.ui.adapter.SliderAdapterFailure;
-import com.example.blaumtask.ui.models.RecentsModel;
-import com.example.blaumtask.ui.models.ReviewsModel;
+import com.example.blaumtask.adapter.ReviewsAdapter;
+import com.example.blaumtask.adapter.SliderAdapterFailure;
+import com.example.blaumtask.models.ReviewsModel;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;

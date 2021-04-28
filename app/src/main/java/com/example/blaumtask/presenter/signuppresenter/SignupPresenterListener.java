@@ -1,4 +1,4 @@
-package com.example.blaumtask.ui.SignupPresenter;
+package com.example.blaumtask.presenter.signuppresenter;
 
 public interface SignupPresenterListener {
     void showProgress();

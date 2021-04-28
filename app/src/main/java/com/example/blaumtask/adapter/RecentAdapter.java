@@ -1,4 +1,4 @@
-package com.example.blaumtask.ui.adapter;
+package com.example.blaumtask.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.blaumtask.R;
-import com.example.blaumtask.ui.models.RecentsModel;
+import com.example.blaumtask.models.RecentsModel;
 
 import java.util.List;
 

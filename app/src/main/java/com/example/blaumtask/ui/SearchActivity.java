@@ -10,8 +10,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.example.blaumtask.R;
-import com.example.blaumtask.ui.adapter.RecentAdapter;
-import com.example.blaumtask.ui.models.RecentsModel;
+import com.example.blaumtask.adapter.RecentAdapter;
+import com.example.blaumtask.models.RecentsModel;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -19,9 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.blaumtask.R;
-import com.example.blaumtask.ui.adapter.ProductsAdapter;
-import com.example.blaumtask.ui.adapter.RecyclerViewClickListener;
-import com.example.blaumtask.ui.models.ProductsModel;
+import com.example.blaumtask.adapter.ProductsAdapter;
+import com.example.blaumtask.adapter.RecyclerViewClickListener;
+import com.example.blaumtask.models.ProductsModel;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
     ProductsModel productsModel, firstItem, secondItem, thirdItem, fourthItem, fifthItem;
 
     ImageView menuImageView , cartImage;
-    TextView hiSheraaText;
     ConstraintLayout constraintLayout;
 
     private EditText searchEditText;

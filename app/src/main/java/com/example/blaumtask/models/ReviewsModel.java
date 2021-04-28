@@ -1,4 +1,4 @@
-package com.example.blaumtask.ui.models;
+package com.example.blaumtask.models;
 
 public class ReviewsModel {
 

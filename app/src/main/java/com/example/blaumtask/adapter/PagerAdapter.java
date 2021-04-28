@@ -1,4 +1,4 @@
-package com.example.blaumtask.ui.adapter;
+package com.example.blaumtask.adapter;
 
 import java.util.ArrayList;
 

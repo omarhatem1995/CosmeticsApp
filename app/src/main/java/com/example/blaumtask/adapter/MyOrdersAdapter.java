@@ -1,4 +1,4 @@
-package com.example.blaumtask.ui.adapter;
+package com.example.blaumtask.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.blaumtask.R;
-import com.example.blaumtask.ui.models.MyOrdersModel;
+import com.example.blaumtask.models.MyOrdersModel;
 
 import java.util.List;
 

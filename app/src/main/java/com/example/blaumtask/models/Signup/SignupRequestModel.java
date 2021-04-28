@@ -1,4 +1,4 @@
-package com.example.blaumtask.ui.models.Signup;
+package com.example.blaumtask.models.Signup;
 
 public class SignupRequestModel {
     String fullname;

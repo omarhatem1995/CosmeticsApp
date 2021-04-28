@@ -1,4 +1,4 @@
-package com.example.blaumtask.ui.adapter;
+package com.example.blaumtask.adapter;
 
 import android.content.Context;
 import android.util.Log;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.blaumtask.R;
-import com.example.blaumtask.ui.models.ProductsModel;
+import com.example.blaumtask.models.ProductsModel;
 
 import java.util.List;
 

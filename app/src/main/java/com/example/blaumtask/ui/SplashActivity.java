@@ -19,7 +19,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         initViews();
-        handleGif(SignupActivity.class,2500,"splash");
+        handleGif(LoginActivity.class,2500,"splash");
     }
 
     private void initViews(){

@@ -1,4 +1,4 @@
-package com.example.blaumtask.ui.utils;
+package com.example.blaumtask.utils;
 
 import android.app.Dialog;
 import android.content.Context;

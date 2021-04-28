@@ -1,23 +1,16 @@
 package com.example.blaumtask.ui;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.blaumtask.R;
-import com.example.blaumtask.ui.SignupPresenter.SignupPresenter;
-import com.example.blaumtask.ui.SignupPresenter.SignupPresenterListener;
-import com.example.blaumtask.ui.utils.SpinnerDialog;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.example.blaumtask.presenter.signuppresenter.SignupPresenter;
+import com.example.blaumtask.presenter.signuppresenter.SignupPresenterListener;
+import com.example.blaumtask.utils.SpinnerDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -55,9 +48,9 @@ public class SignupActivity extends AppCompatActivity implements SignupPresenter
             @Override
             public void onClick(View view) {
                 String fullNameString = fullname.getText().toString();
-                String emailString = email.getText().toString();
+                String emailString = email.getText().toString().trim();
                 String passwordString = password.getText().toString();
-                signupPresenter.submitLogin(fullNameString,emailString,passwordString);
+                signupPresenter.submitRegister(fullNameString,emailString,passwordString);
             }
         });
     }

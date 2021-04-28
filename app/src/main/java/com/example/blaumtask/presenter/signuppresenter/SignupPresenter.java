@@ -1,4 +1,4 @@
-package com.example.blaumtask.ui.SignupPresenter;
+package com.example.blaumtask.presenter.signuppresenter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,16 +6,14 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.blaumtask.models.Signup.SignupRequestModel;
 import com.example.blaumtask.ui.MainActivity;
-import com.example.blaumtask.ui.SignupActivity;
-import com.example.blaumtask.ui.models.Signup.SignupRequestModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -37,7 +35,7 @@ public class SignupPresenter {
 
     FirebaseFirestore firestore;
 
-    SignupPresenterListener signupPresenterListener;
+    private SignupPresenterListener signupPresenterListener;
 
     public SignupPresenter(Activity activity,Context context,SignupPresenterListener signupPresenterListener){
         this.activity = activity;
@@ -47,7 +45,7 @@ public class SignupPresenter {
     }
 
 
-    public void submitLogin(String fullName, String email, String password){
+    public void submitRegister(String fullName, String email, String password){
 
         signupRequestModel = new SignupRequestModel();
         signupRequestModel.setFullname(fullName);

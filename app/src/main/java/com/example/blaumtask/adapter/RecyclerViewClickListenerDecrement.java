@@ -1,4 +1,4 @@
-package com.example.blaumtask.ui.adapter;
+package com.example.blaumtask.adapter;
 
 public interface RecyclerViewClickListenerDecrement {
     void recyclerViewClickListenerDecrement(int position , int number);

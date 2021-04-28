@@ -13,12 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.blaumtask.R;
-import com.example.blaumtask.ui.adapter.MyOrdersAdapter;
-import com.example.blaumtask.ui.adapter.RecyclerViewClickListenerDecrement;
-import com.example.blaumtask.ui.adapter.RecyclerViewClickListenerIncrement;
-import com.example.blaumtask.ui.adapter.ReviewsAdapter;
-import com.example.blaumtask.ui.models.MyOrdersModel;
-import com.example.blaumtask.ui.models.ReviewsModel;
+import com.example.blaumtask.adapter.MyOrdersAdapter;
+import com.example.blaumtask.adapter.RecyclerViewClickListenerDecrement;
+import com.example.blaumtask.adapter.RecyclerViewClickListenerIncrement;
+import com.example.blaumtask.models.MyOrdersModel;
 
 import java.util.ArrayList;
 import java.util.List;

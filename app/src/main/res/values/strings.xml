@@ -26,5 +26,6 @@
     <string name="please_enter_your_email">Please enter your email</string>
     <string name="please_enter_your_passsword">Please enter your passsword</string>
     <string name="submit">Submit</string>
+    <string name="or_register">Or Register</string>
 
 </resources>
