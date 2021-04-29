@@ -1,5 +1,6 @@
 package com.example.blaumtask.ui;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -22,8 +23,13 @@ import com.example.blaumtask.R;
 import com.example.blaumtask.adapter.ProductsAdapter;
 import com.example.blaumtask.adapter.RecyclerViewClickListener;
 import com.example.blaumtask.models.ProductsModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -39,31 +45,50 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
     ProductsAdapter productsAdapter;
     RecyclerView recyclerView;
     List<ProductsModel> productsModelArray;
-    ProductsModel productsModel, firstItem, secondItem, thirdItem, fourthItem, fifthItem;
 
     ImageView menuImageView , cartImage;
+    TextView userNameText;
     ConstraintLayout constraintLayout;
 
     private EditText searchEditText;
 
     private LinearLayout bottomSheetLayout ;
     BottomSheetBehavior bottomSheetBehavior;
-    String flagIntent = "1";
+    String flagIntent = "1" ,TAG = "MainActivity";
     PopupMenu popup ;
     LinearLayout background;
+    FirebaseFirestore firestore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mAuth = FirebaseAuth.getInstance();
+        updateUser();
 
+        initViews();
+
+        setUpProductsList();
+        getProductsList();
+
+
+    }
+    private void initViews(){
+        productsModelArray = new ArrayList<>();
+
+        userNameText = findViewById(R.id.user_name);
         menuImageView = findViewById(R.id.menu_imageview);
         constraintLayout = findViewById(R.id.constraint_layout);
+
         bottomSheetLayout = findViewById(R.id.products_layout);
         searchEditText = findViewById(R.id.search_edit_text);
         background = findViewById(R.id.main_background);
         cartImage = findViewById(R.id.basket);
+
+
+        recyclerView = findViewById(R.id.recyclerview_products);
+
+//        userNameText.setText();
 
         background.setAlpha(0.4F);
         initPopMenu(menuImageView);
@@ -107,54 +132,25 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
             }
         });
 
-        productsModelArray = new ArrayList<>();
+    }
 
-        firstItem = new ProductsModel();
-        secondItem = new ProductsModel();
-        thirdItem = new ProductsModel();
-        fourthItem = new ProductsModel();
-        fifthItem = new ProductsModel();
+    private void updateUser(){
+        mAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
 
-        firstItem.setId(0);
-        secondItem.setId(1);
-        thirdItem.setId(2);
-        fourthItem.setId(3);
-        fifthItem.setId(4);
-
-        firstItem.setProductName("Ebafix");
-        secondItem.setProductName("Ron");
-        thirdItem.setProductName("Viola");
-        fourthItem.setProductName("Cream");
-        fifthItem.setProductName("Salikata");
-
-        firstItem.setProductPrice("80");
-        secondItem.setProductPrice("260");
-        thirdItem.setProductPrice("378");
-        fourthItem.setProductPrice("200");
-        fifthItem.setProductPrice("45");
-
-        firstItem.setImage(R.drawable.ebafix);
-        secondItem.setImage(R.drawable.ron);
-        thirdItem.setImage(R.drawable.viola);
-        fourthItem.setImage(R.drawable.cream);
-        fifthItem.setImage(R.drawable.salikata);
-
-        firstItem.setRating("4");
-        secondItem.setRating("5");
-        thirdItem.setRating("5");
-        fourthItem.setRating("5");
-        fifthItem.setRating("4.5");
-
-        productsModelArray.add(firstItem);
-        productsModelArray.add(secondItem);
-        productsModelArray.add(thirdItem);
-        productsModelArray.add(fourthItem);
-        productsModelArray.add(fifthItem);
-
-        recyclerView = findViewById(R.id.recyclerview_products);
-        setUpProductsList();
-        productsAdapter = new ProductsAdapter(this, productsModelArray,this::recyclerViewClickListener);
-        recyclerView.setAdapter(productsAdapter);
+        firestore.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .get().addOnCompleteListener(task -> {
+            if(task.isSuccessful() && task.getResult() != null){
+                String fullName = task.getResult().getString("FullName");
+                String email = task.getResult().getString("Email");
+                String phone = task.getResult().getString("userID");
+                Log.d(TAG,"firstName " + fullName + " " + email + " " + phone  );
+                userNameText.setText(fullName);
+                //other stuff
+            }else{
+                //deal with error
+            }
+        });
     }
 
     private void setUpProductsList() {
@@ -162,6 +158,40 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         recyclerView.setLayoutManager(gridLayoutManager);
 
         recyclerView.setHasFixedSize(true);
+    }
+    private void getProductsList() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("cosmetic_item")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("LogTAG", document.getId() + " => " + document.getData().get("name"));
+                                ProductsModel productsModel = new ProductsModel();
+                                productsModel.setProductName(document.getData().get("name").toString());
+                                productsModel.setProductPrice(document.getData().get("price").toString());
+                                productsModel.setRating(document.getData().get("rate").toString());
+                                productsModel.setImage(document.getData().get("image").toString());
+
+                                productsModelArray.add(productsModel);
+                            }
+                            setAdapter();
+                        } else {
+                            Log.w("LogTAG", "Error getting documents.", task.getException());
+                        }
+                    }
+                });
+    }
+
+    private void setAdapter(){
+        productsAdapter = new ProductsAdapter(getApplicationContext(),
+                productsModelArray,this);
+        recyclerView.setAdapter(productsAdapter);
+//        recyclerView.setVisibility(View.VISIBLE);
+
     }
 
   /*  public void showPopup(View v) {
@@ -205,7 +235,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
                     return true;
                 }else if(item.getTitle().equals("Logout")) {
                     mAuth.signOut();
-                    Intent intentLogout = new Intent(MainActivity.this,SignupActivity.class);
+                    Intent intentLogout = new Intent(MainActivity.this,LoginActivity.class);
                     startActivity(intentLogout);
                     return true;
                 }else {
@@ -260,7 +290,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         Intent intent = new Intent(getApplicationContext(), ProductsDetailsActivity.class);
         Bundle extras = new Bundle();
         extras.putInt("id", productsModelArray.get(targetPos).getId());
-        extras.putInt("image", productsModelArray.get(targetPos).getImage());
+//        extras.putInt("image", productsModelArray.get(targetPos).getImage());
         extras.putString("name", productsModelArray.get(targetPos).getProductName());
         extras.putString("price", productsModelArray.get(targetPos).getProductPrice());
         extras.putString("rating", productsModelArray.get(targetPos).getRating());

@@ -3,6 +3,7 @@ package com.example.blaumtask.presenter.loginpresenter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.blaumtask.presenter.signuppresenter.SignupPresenterListener;
@@ -37,6 +38,18 @@ public class LoginPresenter {
         mAuth.signInWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
+                firestore.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        .get().addOnCompleteListener(task -> {
+                    if(task.isSuccessful() && task.getResult() != null){
+                        String firstName = task.getResult().getString("FullName");
+                        String email = task.getResult().getString("Email");
+                        String phone = task.getResult().getString("userID");
+                        Log.d(TAG,"firstName " + firstName + " " + email + " " + phone  );
+                        //other stuff
+                    }else{
+                        //deal with error
+                    }
+                });
                 startActivity(context,new Intent(activity, MainActivity.class),null);
                 activity.finishAffinity();
             }

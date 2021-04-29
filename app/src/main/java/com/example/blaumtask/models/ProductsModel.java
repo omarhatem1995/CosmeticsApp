@@ -8,7 +8,10 @@ public class ProductsModel {
     private String productName;
     private String productPrice;
     private String rating;
-    private int image;
+    private String image;
+    private String category;
+    private String serial;
+    private String condition;
 
     public int getId() {
         return id;
@@ -42,11 +45,35 @@ public class ProductsModel {
         this.rating = rating;
     }
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getSerial() {
+        return serial;
+    }
+
+    public void setSerial(String serial) {
+        this.serial = serial;
+    }
+
+    public String getCondition() {
+        return condition;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
     }
 }

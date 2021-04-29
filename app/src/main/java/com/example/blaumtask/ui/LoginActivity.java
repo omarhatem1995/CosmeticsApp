@@ -14,7 +14,8 @@ import com.example.blaumtask.presenter.loginpresenter.LoginPresenter;
 import com.example.blaumtask.presenter.loginpresenter.LoginPresenterListener;
 import com.example.blaumtask.utils.SpinnerDialog;
 
-public class LoginActivity extends AppCompatActivity implements LoginPresenterListener {
+public class LoginActivity extends AppCompatActivity implements LoginPresenterListener,
+View.OnClickListener{
 
     private SpinnerDialog spinnerDialog;
 
@@ -41,20 +42,8 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenterLi
 
         loginPresenter = new LoginPresenter(this,this,this);
 
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String emailString = email.getText().toString().trim();
-                String passwordString = password.getText().toString();
-                loginPresenter.submitLogin(emailString , passwordString);
-            }
-        });
-        orRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this,SignupActivity.class));
-            }
-        });
+        submit.setOnClickListener(this);
+        orRegister.setOnClickListener(this);
     }
 
     @Override
@@ -65,5 +54,24 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenterLi
     @Override
     public void hideProgress() {
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.submit_login:
+                handleLogin();
+                break;
+            case R.id.or_register:
+                startActivity(new Intent(LoginActivity.this,SignupActivity.class));
+                break;
+
+        }
+    }
+
+    void handleLogin(){
+        String emailString = email.getText().toString().trim();
+        String passwordString = password.getText().toString();
+        loginPresenter.submitLogin(emailString , passwordString);
     }
 }

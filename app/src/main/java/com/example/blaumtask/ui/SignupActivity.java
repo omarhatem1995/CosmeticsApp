@@ -14,7 +14,8 @@ import com.example.blaumtask.utils.SpinnerDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class SignupActivity extends AppCompatActivity implements SignupPresenterListener {
+public class SignupActivity extends AppCompatActivity implements SignupPresenterListener,
+View.OnClickListener{
 
     private FirebaseAuth mAuth;
 
@@ -44,15 +45,7 @@ public class SignupActivity extends AppCompatActivity implements SignupPresenter
         spinnerDialog = new SpinnerDialog(this);
         signupPresenter = new SignupPresenter(this,this, this);
 
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String fullNameString = fullname.getText().toString();
-                String emailString = email.getText().toString().trim();
-                String passwordString = password.getText().toString();
-                signupPresenter.submitRegister(fullNameString,emailString,passwordString);
-            }
-        });
+        submit.setOnClickListener(this);
     }
 
     @Override
@@ -75,4 +68,20 @@ public class SignupActivity extends AppCompatActivity implements SignupPresenter
             spinnerDialog.hide();
         }
     }
+    @Override
+    public void onClick(View view) {
+            switch (view.getId()){
+                case R.id.submit_signup:
+                    handleRegisteration();
+                    break;
+            }
+    }
+    private void handleRegisteration(){
+        String fullNameString = fullname.getText().toString();
+        String emailString = email.getText().toString().trim();
+        String passwordString = password.getText().toString();
+        signupPresenter.submitRegister(fullNameString,emailString,passwordString);
+    }
+
+
 }

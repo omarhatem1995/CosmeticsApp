@@ -55,7 +55,7 @@ public class ProductsDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         id = extras.getInt("id");
-        image = extras.getInt("image");
+//        image = extras.getInt("image");
         name = extras.getString("name");
         price = extras.getString("price");
         rating = extras.getString("rating");

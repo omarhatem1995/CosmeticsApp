@@ -9,8 +9,12 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.blaumtask.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class SplashActivity extends AppCompatActivity {
+
+    private FirebaseAuth mAuth;
+
     private ImageView gif;
 
     @Override
@@ -19,10 +23,16 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         initViews();
-        handleGif(LoginActivity.class,2500,"splash");
     }
 
     private void initViews(){
+        mAuth = FirebaseAuth.getInstance();
+
+        if(mAuth!=null)
+            handleGif(MainActivity.class,2500,"splash");
+        else
+            handleGif(LoginActivity.class,2500,"splash");
+
         gif = findViewById(R.id.splash_gif);
         Glide.with(this).asGif().load(R.raw.animation).into(gif);
 
