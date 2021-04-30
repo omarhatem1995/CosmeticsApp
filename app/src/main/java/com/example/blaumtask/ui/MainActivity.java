@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
         mainActivityPresenter.updateUser();
         mainActivityPresenter.updateUsersBasket();
         mainActivityPresenter.getProductsList();
+
         menuImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -44,7 +44,7 @@ public class MainActivityPresenter implements RecyclerViewClickListener {
     private ProductsAdapter productsAdapter;
     private List<ProductsModel> productsModelArray;
     private RecyclerView recyclerView;
-    
+
     public MainActivityPresenter(Context context , MainActivityPresenterListener mainActivityPresenterListener){
         mAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
