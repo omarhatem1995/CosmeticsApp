@@ -1,5 +1,6 @@
 package com.example.blaumtask.ui;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -7,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,6 +19,12 @@ import com.example.blaumtask.R;
 import com.example.blaumtask.adapter.ReviewsAdapter;
 import com.example.blaumtask.adapter.SliderAdapterFailure;
 import com.example.blaumtask.models.ReviewsModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
@@ -25,15 +34,19 @@ import java.util.List;
 
 public class ProductsDetailsActivity extends AppCompatActivity {
 
-    private String name,price,rating;
-    private int image,id;
+    private String name,price,rating,image,categoryString,serialString,conditionString;
+    private int id;
     ImageView backButton;
     private SliderView sliderView;
     private LinearLayout linearBackground , linearDetails, linearButtons;
-    private TextView details,reviews , nameProduct ,productPriceDetails , ratingDetails;
+    private TextView details,reviews , nameProduct ,productPriceDetails , ratingDetails,serial,condition,category , basketCounter;
+    private Button addToCart;
     ReviewsAdapter reviewsAdapter;
     RecyclerView recyclerView;
     List<ReviewsModel> reviewsModelList;
+    long basketNumber , basketNewValue;
+    private FirebaseAuth mAuth;
+    FirebaseFirestore firestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,17 +64,28 @@ public class ProductsDetailsActivity extends AppCompatActivity {
         nameProduct = findViewById(R.id.name_product);
         productPriceDetails = findViewById(R.id.product_price_details);
         ratingDetails = findViewById(R.id.product_rating_details);
+        category = findViewById(R.id.category_product);
+        serial = findViewById(R.id.serial_product);
+        condition = findViewById(R.id.condition_product);
+        addToCart = findViewById(R.id.addtocart);
+        basketCounter = findViewById(R.id.basket_counter);
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         id = extras.getInt("id");
-//        image = extras.getInt("image");
+        image = extras.getString("image");
         name = extras.getString("name");
         price = extras.getString("price");
         rating = extras.getString("rating");
+        conditionString = extras.getString("condition");
+        serialString = extras.getString("serial");
+        categoryString = extras.getString("category");
         nameProduct.setText(name);
         productPriceDetails.setText(price);
         ratingDetails.setText(rating);
+        category.setText(categoryString);
+        serial.setText(serialString);
+        condition.setText(conditionString);
 
         reviews.setElevation(0.0F);
         reviews.setTypeface(null, Typeface.NORMAL);
@@ -94,7 +118,35 @@ public class ProductsDetailsActivity extends AppCompatActivity {
 
             }
         });
+        mAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
+        firestore.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .get().addOnCompleteListener(task -> {
+            if(task.isSuccessful() && task.getResult() != null){
+                basketNumber = task.getResult().getLong("Basket");
+                basketCounter.setText(String.valueOf(basketNumber));
+                //other stuff
+            }else{
+                //deal with error
+            }
+        });
+        DocumentReference documentReference = firestore.collection("users").document(mAuth.getUid());
+        addToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                basketNewValue = basketNumber + 1;
+                documentReference.update("Basket",basketNewValue);
 
+            }
+        });
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                Log.d("valueEventListener",value.get("Basket").toString());
+                basketCounter.setText(value.get("Basket").toString());
+
+            }
+        });
         getDefaultSlider();
         backButton.setBackgroundResource(R.drawable.ic_backarrow);
         backButton.setRotation(180);
