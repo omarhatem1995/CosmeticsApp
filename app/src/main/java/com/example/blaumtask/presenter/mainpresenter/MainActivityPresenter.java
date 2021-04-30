@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,7 +15,12 @@ import com.example.blaumtask.R;
 import com.example.blaumtask.adapter.ProductsAdapter;
 import com.example.blaumtask.adapter.RecyclerViewClickListener;
 import com.example.blaumtask.models.ProductsModel;
+import com.example.blaumtask.ui.CartSettingsActivity;
+import com.example.blaumtask.ui.LoginActivity;
+import com.example.blaumtask.ui.MainActivity;
+import com.example.blaumtask.ui.My_Orders;
 import com.example.blaumtask.ui.ProductsDetailsActivity;
+import com.example.blaumtask.ui.SearchActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,11 +32,15 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -48,9 +60,16 @@ public class MainActivityPresenter implements RecyclerViewClickListener {
     public MainActivityPresenter(Context context , MainActivityPresenterListener mainActivityPresenterListener){
         mAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
+
         productsModelArray = new ArrayList<>();
+
         this.context = context;
         this.mainActivityPresenterListener = mainActivityPresenterListener;
+
+        constraintLayout = ((Activity)context).findViewById(R.id.constraint_layout);
+
+        menuImageView = ((Activity)context).findViewById(R.id.menu_imageview);
+
     }
 
     public void updateUser(){
@@ -129,6 +148,70 @@ public class MainActivityPresenter implements RecyclerViewClickListener {
 
         recyclerView.setHasFixedSize(true);
     }
+    PopupMenu popup;
+    ImageView menuImageView;
+    private ConstraintLayout constraintLayout;
+
+    public void initPopMenu(View view) {
+        popup = new PopupMenu(context, view);
+
+        try {
+            Field[] fields = popup.getClass().getDeclaredFields();
+            for (Field field : fields) {
+                if ("mPopup".equals(field.getName())) {
+                    field.setAccessible(true);
+                    Object menuPopupHelper = field.get(popup);
+                    Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
+                    Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon", boolean.class);
+                    setForceIcons.invoke(menuPopupHelper, true);
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        popup.getMenuInflater().inflate(R.menu.main, popup.getMenu());
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getTitle().equals("Settings")) {
+                    Intent intent = new Intent(context, CartSettingsActivity.class);
+                    context.startActivity(intent);
+                    return true;
+                } else if (item.getTitle().equals("Logout")) {
+                    mAuth.signOut();
+                    Intent intentLogout = new Intent(context, LoginActivity.class);
+                    context.startActivity(intentLogout);
+                    return true;
+                } else {
+                    Toast.makeText(context, "You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+            }
+        });
+                popup.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu menu) {
+                constraintLayout.setAlpha(1);
+            }
+        });
+    }
+
+    public void showPopup(){
+        constraintLayout.setAlpha(0.5F);
+        popup.show();
+    }
+
+    public void openBasket(){
+        Log.d("openBasket"," is called");
+        Intent intentMyOrders = new Intent(context, My_Orders.class);
+        context.startActivity(intentMyOrders);
+    }
+
+    public void switchToSecondFragment(){
+        Intent intentSearch = new Intent(context, SearchActivity.class);
+        context.startActivity(intentSearch);
+    }
 
     @Override
     public void recyclerViewClickListener(int position) {
@@ -146,5 +229,6 @@ public class MainActivityPresenter implements RecyclerViewClickListener {
         extras.putString("serial", productsModelArray.get(targetPos).getSerial());
 
         intent.putExtras(extras);
-        context.startActivity(intent);    }
+        context.startActivity(intent);
+    }
 }

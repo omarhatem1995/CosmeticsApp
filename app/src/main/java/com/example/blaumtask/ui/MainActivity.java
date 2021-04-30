@@ -44,20 +44,19 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MainActivityPresenterListener {
+public class MainActivity extends AppCompatActivity implements MainActivityPresenterListener, View.OnClickListener,
+        View.OnTouchListener {
 
     private FirebaseAuth mAuth;
 
     private ImageView menuImageView, cartImage;
-    private ConstraintLayout constraintLayout;
 
     private EditText searchEditText;
 
     private LinearLayout bottomSheetLayout;
-    BottomSheetBehavior bottomSheetBehavior;
-    String flagIntent = "1", TAG = "MainActivity";
-    PopupMenu popup;
-    LinearLayout background;
+    private BottomSheetBehavior bottomSheetBehavior;
+    private String flagIntent = "1", TAG = "MainActivity";
+    private LinearLayout background;
     private MainActivityPresenter mainActivityPresenter;
 
     private SpinnerDialog spinnerDialog;
@@ -69,11 +68,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
 
         initViews();
 
-//        setUpProductsList();
-
-//        getProductsList();
-
-
     }
 
     private void initViews() {
@@ -81,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
         spinnerDialog = new SpinnerDialog(this);
 
         menuImageView = findViewById(R.id.menu_imageview);
-        constraintLayout = findViewById(R.id.constraint_layout);
 
         bottomSheetLayout = findViewById(R.id.products_layout);
         searchEditText = findViewById(R.id.search_edit_text);
@@ -89,51 +82,18 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
         cartImage = findViewById(R.id.basket);
 
         background.setAlpha(0.4F);
-        initPopMenu(menuImageView);
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetLayout);
 
         mainActivityPresenter = new MainActivityPresenter(this,this);
         mainActivityPresenter.updateUser();
         mainActivityPresenter.updateUsersBasket();
         mainActivityPresenter.getProductsList();
+        mainActivityPresenter.initPopMenu(menuImageView);
 
-        menuImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                constraintLayout.setAlpha(0.5F);
-                popup.show();
+        menuImageView.setOnClickListener(this);
+        cartImage.setOnClickListener(this);
 
-            }
-        });
-        cartImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intentMyOrders = new Intent(MainActivity.this, My_Orders.class);
-                startActivity(intentMyOrders);
-            }
-        });
-        searchEditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-        searchEditText.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (flagIntent.equals("1")) {
-                    switchToSecondFragment();
-                    flagIntent = "0";
-                }
-                return false;
-            }
-        });
-        popup.setOnDismissListener(new PopupMenu.OnDismissListener() {
-            @Override
-            public void onDismiss(PopupMenu menu) {
-                constraintLayout.setAlpha(1);
-            }
-        });
+        searchEditText.setOnTouchListener(this);
 
     }
 
@@ -142,45 +102,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
     protected void onResume() {
         super.onResume();
         flagIntent = "1";
-    }
-
-    public void initPopMenu(View view) {
-        popup = new PopupMenu(MainActivity.this, menuImageView);
-
-        try {
-            Field[] fields = popup.getClass().getDeclaredFields();
-            for (Field field : fields) {
-                if ("mPopup".equals(field.getName())) {
-                    field.setAccessible(true);
-                    Object menuPopupHelper = field.get(popup);
-                    Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
-                    Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon", boolean.class);
-                    setForceIcons.invoke(menuPopupHelper, true);
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        popup.getMenuInflater().inflate(R.menu.main, popup.getMenu());
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getTitle().equals("Settings")) {
-                    Intent intent = new Intent(MainActivity.this, CartSettingsActivity.class);
-                    startActivity(intent);
-                    return true;
-                } else if (item.getTitle().equals("Logout")) {
-                    mAuth.signOut();
-                    Intent intentLogout = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(intentLogout);
-                    return true;
-                } else {
-                    Toast.makeText(getApplicationContext(), "You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-            }
-        });
     }
 
     public void switchToSecondFragment() {
@@ -229,5 +150,26 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
     @Override
     public void hideProgress() {
         spinnerDialog.dismiss();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.menu_imageview:
+                mainActivityPresenter.showPopup();
+                break;
+            case R.id.basket:
+                mainActivityPresenter.openBasket();
+                break;
+        }
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
+            mainActivityPresenter.switchToSecondFragment();
+            return true;
+        }
+        return false;
     }
 }
