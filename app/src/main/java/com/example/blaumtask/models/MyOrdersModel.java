@@ -2,10 +2,22 @@ package com.example.blaumtask.models;
 
 public class MyOrdersModel {
     private String itemName;
-    private String itemCategory;
-    private int itemPrice;
+    private String itemCategory , itemID;
+    private double itemPrice ;
+    private int itemCount;
     private int itemImage;
     private int minus , plus , numberCounter;
+
+    public MyOrdersModel(){
+
+    }
+
+    public MyOrdersModel(String itemName, double itemPrice , String itemID , int itemCount){
+        this.itemName = itemName;
+        this.itemPrice = itemPrice;
+        this.itemID = itemID;
+        this.itemCount = itemCount;
+    }
 
     public String getItemName() {
         return itemName;
@@ -23,11 +35,11 @@ public class MyOrdersModel {
         this.itemCategory = itemCategory;
     }
 
-    public int getItemPrice() {
+    public double getItemPrice() {
         return itemPrice;
     }
 
-    public void setItemPrice(int itemPrice) {
+    public void setItemPrice(double itemPrice) {
         this.itemPrice = itemPrice;
     }
 
@@ -62,4 +74,20 @@ public class MyOrdersModel {
     public void setNumberCounter(int numberCounter) {
         this.numberCounter = numberCounter;
     }
+    public String getItemID() {
+        return itemID;
+    }
+
+    public void setItemID(String itemID) {
+        this.itemID = itemID;
+    }
+
+    public int getItemCount() {
+        return itemCount;
+    }
+
+    public void setItemCount(int itemCount) {
+        this.itemCount = itemCount;
+    }
+
 }

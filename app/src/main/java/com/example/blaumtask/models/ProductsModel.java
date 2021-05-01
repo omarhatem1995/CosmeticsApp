@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ProductsModel {
 
-    private int id;
+    private String id;
     private String productName;
     private String productPrice;
     private String rating;
@@ -12,12 +12,13 @@ public class ProductsModel {
     private String category;
     private String serial;
     private String condition;
+    private int productCount;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -75,5 +76,13 @@ public class ProductsModel {
 
     public void setCondition(String condition) {
         this.condition = condition;
+    }
+
+    public int getProductCount() {
+        return productCount;
+    }
+
+    public void setProductCount(int productCount) {
+        this.productCount = productCount;
     }
 }

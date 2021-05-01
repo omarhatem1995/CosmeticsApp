@@ -49,23 +49,23 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.MyOrde
     @Override
     public void onBindViewHolder(@NonNull MyOrdersAdapter.MyOrdersViewHolder holder, int position) {
         String itemName = myOrdersModels.get(position).getItemName();
-        int itemPrice = myOrdersModels.get(position).getItemPrice();
+        double itemPrice = myOrdersModels.get(position).getItemPrice();
         String itemCategory = myOrdersModels.get(position).getItemCategory();
-
+        int itemCounter = myOrdersModels.get(position).getItemCount();
 
         holder.itemName.setText(itemName);
         holder.itemCategory.setText(itemCategory);
         holder.itemPrice.setText(itemPrice + "");
-        holder.numberCounter.getText();
+        holder.numberCounter.setText(itemCounter + "");
         holder.minusImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (Integer.parseInt(holder.numberCounter.getText().toString()) != 0) {
 
-                    number = Integer.parseInt(holder.numberCounter.getText().toString()) - 1;
+                  /*  number = Integer.parseInt(holder.numberCounter.getText().toString()) - 1;
                     holder.numberCounter.setText(number + "");
-                    holder.itemPrice.setText(itemPrice * number + "");
-                    recyclerViewClickListenerDecrement.recyclerViewClickListenerDecrement(position, itemPrice * number);
+                    holder.itemPrice.setText(itemPrice * number + "");*/
+                    recyclerViewClickListenerDecrement.recyclerViewClickListenerDecrement(position, 0);
                 } else {
                     Toast.makeText(mContext, "Can't decrease", Toast.LENGTH_SHORT).show();
                 }
@@ -75,14 +75,14 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.MyOrde
         holder.plusImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                number = Integer.parseInt(holder.numberCounter.getText().toString()) + 1;
+                /*number = Integer.parseInt(holder.numberCounter.getText().toString()) + 1;
                 holder.numberCounter.setText(number + "");
-                holder.itemPrice.setText(itemPrice * number + "");
-                recyclerViewClickListenerIncrement.recyclerViewClickListenerIncrement(position, itemPrice * number);
+                holder.itemPrice.setText(itemPrice * number + "");*/
+                recyclerViewClickListenerIncrement.recyclerViewClickListenerIncrement(position, 0);
 
             }
         });
-        holder.numberCounter.setText(number + "");
+//        holder.numberCounter.setText(number + "");
         Glide.with(mContext)
                 .load(myOrdersModels.get(position).getItemImage())
                 .into(holder.itemOrders);

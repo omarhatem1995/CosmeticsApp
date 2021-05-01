@@ -5,6 +5,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +17,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -47,8 +50,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements MainActivityPresenterListener, View.OnClickListener,
         View.OnTouchListener {
 
-    private FirebaseAuth mAuth;
-
     private ImageView menuImageView, cartImage;
 
     private EditText searchEditText;
@@ -57,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
     private BottomSheetBehavior bottomSheetBehavior;
     private String flagIntent = "1", TAG = "MainActivity";
     private LinearLayout background;
+    private FrameLayout fragmentLayout;
+
     private MainActivityPresenter mainActivityPresenter;
 
     private SpinnerDialog spinnerDialog;
@@ -71,10 +74,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
     }
 
     private void initViews() {
-        mAuth = FirebaseAuth.getInstance();
         spinnerDialog = new SpinnerDialog(this);
 
         menuImageView = findViewById(R.id.menu_imageview);
+
+        fragmentLayout = findViewById(R.id.fragment_layout);
 
         bottomSheetLayout = findViewById(R.id.products_layout);
         searchEditText = findViewById(R.id.search_edit_text);
@@ -164,10 +168,22 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
         }
     }
 
+    private void openFragment(String text){
+        SearchFragment fragment = SearchFragment.newInstance(text);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.exit_to_right, R.anim.exit_to_right,
+                R.anim.exit_to_right,R.anim.exit_to_right);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.add(R.id.fragmentsearch_layout,fragment,"SEARCH_FRAGMENT").commit();
+
+    }
+
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
             mainActivityPresenter.switchToSecondFragment();
+//            openFragment("TEXT");
             return true;
         }
         return false;

@@ -36,8 +36,7 @@ import java.util.List;
 
 public class ProductsDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private String name, price, rating, image, categoryString, serialString, conditionString;
-    private int id;
+    private String name, price, rating, image, categoryString, serialString, conditionString , id;
     private ImageView backButton;
     private LinearLayout linearBackground;
     private TextView details, reviews, nameProduct, productPriceDetails, ratingDetails, serial, condition, category;
@@ -95,7 +94,7 @@ public class ProductsDetailsActivity extends AppCompatActivity implements View.O
     private void getExtras() {
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-        id = extras.getInt("id");
+        id = extras.getString("id");
         image = extras.getString("image");
         name = extras.getString("name");
         price = extras.getString("price");

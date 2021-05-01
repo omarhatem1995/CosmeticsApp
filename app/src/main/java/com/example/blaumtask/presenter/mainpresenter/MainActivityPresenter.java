@@ -17,8 +17,7 @@ import com.example.blaumtask.adapter.RecyclerViewClickListener;
 import com.example.blaumtask.models.ProductsModel;
 import com.example.blaumtask.ui.CartSettingsActivity;
 import com.example.blaumtask.ui.LoginActivity;
-import com.example.blaumtask.ui.MainActivity;
-import com.example.blaumtask.ui.My_Orders;
+import com.example.blaumtask.ui.MyOrdersActivity;
 import com.example.blaumtask.ui.ProductsDetailsActivity;
 import com.example.blaumtask.ui.SearchActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -48,11 +47,15 @@ public class MainActivityPresenter implements RecyclerViewClickListener {
     private FirebaseAuth mAuth;
     private FirebaseFirestore firestore;
     private DocumentReference documentReference;
+
     private TextView userNameText , basketCounter;
+
     private MainActivityPresenterListener mainActivityPresenterListener;
-    private String TAG="MainActivityPresenter";
     private Context context;
+
+    private String TAG="MainActivityPresenter";
     private int targetPos = 0;
+
     private ProductsAdapter productsAdapter;
     private List<ProductsModel> productsModelArray;
     private RecyclerView recyclerView;
@@ -60,6 +63,7 @@ public class MainActivityPresenter implements RecyclerViewClickListener {
     public MainActivityPresenter(Context context , MainActivityPresenterListener mainActivityPresenterListener){
         mAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
+        documentReference = firestore.collection("users").document(mAuth.getUid());
 
         productsModelArray = new ArrayList<>();
 
@@ -76,7 +80,6 @@ public class MainActivityPresenter implements RecyclerViewClickListener {
 
         mainActivityPresenterListener.showProgress();
 
-        documentReference = firestore.collection("users").document(mAuth.getUid());
         firestore.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .get().addOnCompleteListener(task -> {
             if(task.isSuccessful() && task.getResult() != null){
@@ -122,6 +125,7 @@ public class MainActivityPresenter implements RecyclerViewClickListener {
                                 productsModel.setCategory(document.getData().get("category").toString());
                                 productsModel.setCondition(document.getData().get("condition").toString());
                                 productsModel.setSerial(document.getData().get("serial").toString());
+                                productsModel.setId(document.getData().get("item_id").toString());
 
                                 productsModelArray.add(productsModel);
                             }
@@ -204,7 +208,7 @@ public class MainActivityPresenter implements RecyclerViewClickListener {
 
     public void openBasket(){
         Log.d("openBasket"," is called");
-        Intent intentMyOrders = new Intent(context, My_Orders.class);
+        Intent intentMyOrders = new Intent(context, MyOrdersActivity.class);
         context.startActivity(intentMyOrders);
     }
 
@@ -219,7 +223,7 @@ public class MainActivityPresenter implements RecyclerViewClickListener {
         targetPos = position;
         Intent intent = new Intent(context, ProductsDetailsActivity.class);
         Bundle extras = new Bundle();
-        extras.putInt("id", productsModelArray.get(targetPos).getId());
+        extras.putString("id", productsModelArray.get(targetPos).getId());
         extras.putString("image", productsModelArray.get(targetPos).getImage());
         extras.putString("name", productsModelArray.get(targetPos).getProductName());
         extras.putString("price", productsModelArray.get(targetPos).getProductPrice());

@@ -174,5 +174,13 @@
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
+    <fragment
+        android:id="@+id/fragment1"
+        android:name="com.example.blaumtask.ui.SearchFragment"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

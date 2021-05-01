@@ -24,7 +24,7 @@
                app to run.
         -->
         <activity android:name=".ui.CheckoutActivity" />
-        <activity android:name=".ui.My_Orders" />
+        <activity android:name=".ui.MyOrdersActivity" />
         <activity android:name=".ui.ProductsDetailsActivity" />
         <activity android:name=".ui.SearchActivity" />
         <activity android:name=".ui.CartSettingsActivity" />

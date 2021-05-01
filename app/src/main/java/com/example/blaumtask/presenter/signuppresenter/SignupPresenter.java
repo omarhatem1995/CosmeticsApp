@@ -67,6 +67,8 @@ public class SignupPresenter {
                             user.put("userID" , userId);
                             user.put("FullName" , fullName);
                             user.put("Email" , email);
+                            user.put("Total" , 0);
+                            user.put("Basket" , 0);
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
