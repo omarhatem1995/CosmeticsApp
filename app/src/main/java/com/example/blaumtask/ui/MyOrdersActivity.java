@@ -55,6 +55,7 @@ public class MyOrdersActivity extends AppCompatActivity implements RecyclerViewC
 
         backButton.setOnClickListener(this);
         checkout.setOnClickListener(this);
+        myOrdersPresenter.updateUsersBasket();
 
        /* for (int i = 0; i < myOrdersModelList.size(); i++) {
             total = myOrdersModelList.get(i).getItemPrice() + total;

@@ -36,7 +36,7 @@ public class MyOrdersPresenter implements RecyclerViewClickListenerIncrement,
     private FirebaseAuth mAuth;
     private FirebaseFirestore firestore;
 
-    private DocumentReference getTotal;
+    private DocumentReference documentReference, addItemCountertReference;
 
     private MyOrdersPresenterListener myOrdersPresenterListener;
     private MyOrdersModel myOrdersModel;
@@ -44,7 +44,7 @@ public class MyOrdersPresenter implements RecyclerViewClickListenerIncrement,
     private MyOrdersAdapter myOrdersAdapter;
     private RecyclerView recyclerView;
 
-    private TextView totalText;
+    private TextView totalText , basketCounter;
 
     private Context context;
     private Activity activity;
@@ -56,15 +56,19 @@ public class MyOrdersPresenter implements RecyclerViewClickListenerIncrement,
     public MyOrdersPresenter(Context context, Activity activity, MyOrdersPresenterListener myOrdersPresenterListener) {
         mAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
-        getTotal = firestore.collection("users")
+        documentReference = firestore.collection("users")
+                .document(mAuth.getUid());
+        addItemCountertReference = firestore.collection("users_cart")
                 .document(mAuth.getUid());
 
         recyclerView = ((Activity) context).findViewById(R.id.recyclerview_my_orders);
         totalText = ((Activity) context).findViewById(R.id.total_text);
+        basketCounter = ((Activity)context).findViewById(R.id.basket_counter);
 
         this.context = context;
         this.activity = activity;
         this.myOrdersPresenterListener = myOrdersPresenterListener;
+
     }
 
     int itemCount;
@@ -102,7 +106,7 @@ public class MyOrdersPresenter implements RecyclerViewClickListenerIncrement,
     }
 
     public void totalTextUpdate() {
-        getTotal.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 totalText.setText(value.get("Total").toString());
@@ -127,24 +131,31 @@ public class MyOrdersPresenter implements RecyclerViewClickListenerIncrement,
         activity.finish();
     }
 
+    public void updateUsersBasket(){
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                basketCounter.setText(value.get("Basket").toString());
+                Log.d("lsdlsldlsd",value.get("Basket").toString());
+            }
+        });
+    }
+
     @Override
     public void recyclerViewClickListenerDecrement(int position, int number) {
         targetPos = position;
-        String itemID = myOrdersModelList.get(position).getItemID();
         itemCount = myOrdersModelList.get(position).getItemCount();
-        DocumentReference addItemCountertReference = firestore.collection("users_cart")
-                .document(mAuth.getUid());
+        String itemID = myOrdersModelList.get(position).getItemID();
         addItemCountertReference.collection("item").document(itemID)
                 .update("productCount", itemCount - 1);
-        getTotal.update("Total", total - myOrdersModelList.get(position).getItemPrice());
+        documentReference.update("Total", total - myOrdersModelList.get(position).getItemPrice());
         updateBasket();
     }
 
     @Override
     public void recyclerViewClickListenerIncrement(int position, int number) {
         targetPos = position;
-        DocumentReference addItemCountertReference = firestore.collection("users_cart")
-                .document(mAuth.getUid());
         itemCount = myOrdersModelList.get(position).getItemCount();
         String itemID = myOrdersModelList.get(position).getItemID();
         addItemCountertReference.collection("item").document(itemID)
@@ -152,7 +163,7 @@ public class MyOrdersPresenter implements RecyclerViewClickListenerIncrement,
         Log.d("targetPosition", targetPos + " , number " + itemCount + " , " +
                 itemID + " , " + (itemCount + 1));
 
-        getTotal.update("Total", total + myOrdersModelList.get(position).getItemPrice());
+        documentReference.update("Total", total + myOrdersModelList.get(position).getItemPrice());
         updateBasket();
     }
 }
