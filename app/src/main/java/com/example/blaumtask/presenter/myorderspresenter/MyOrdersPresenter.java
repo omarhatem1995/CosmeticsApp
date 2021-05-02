@@ -50,7 +50,7 @@ public class MyOrdersPresenter implements RecyclerViewClickListenerIncrement,
     private Activity activity;
 
     private String TAG = "MyOrdersPresenter";
-    int targetPos;
+    int targetPos , basket;
     double total;
 
     public MyOrdersPresenter(Context context, Activity activity, MyOrdersPresenterListener myOrdersPresenterListener) {
@@ -73,7 +73,7 @@ public class MyOrdersPresenter implements RecyclerViewClickListenerIncrement,
 
     int itemCount;
 
-    public void updateBasket() {
+    public void getBasketList() {
         myOrdersPresenterListener.showProgress();
         myOrdersModelList = new ArrayList<>();
 
@@ -89,8 +89,9 @@ public class MyOrdersPresenter implements RecyclerViewClickListenerIncrement,
                         double itemPrice = Double.parseDouble(document.getData().get("productPrice").toString());
                         String itemName = document.getData().get("productName").toString();
                         itemCount = Integer.parseInt(document.getData().get("productCount").toString());
+                        String image = document.getData().get("image").toString();
                         Log.d(TAG, "firstName " + itemPrice + " " + itemName + " " + itemCount);
-                        myOrdersModel = new MyOrdersModel(itemName, itemPrice, itemID, itemCount);
+                        myOrdersModel = new MyOrdersModel(itemName, itemPrice, itemID, itemCount,image);
                         myOrdersModelList.add(myOrdersModel);
 
                         myOrdersPresenterListener.hideProgress();
@@ -111,6 +112,7 @@ public class MyOrdersPresenter implements RecyclerViewClickListenerIncrement,
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 totalText.setText(value.get("Total").toString());
                 total = Double.valueOf(value.get("Total").toString());
+                Log.d("basketNumber", basket+ " ");
             }
         });
     }
@@ -137,6 +139,7 @@ public class MyOrdersPresenter implements RecyclerViewClickListenerIncrement,
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
 
                 basketCounter.setText(value.get("Basket").toString());
+                basket = Integer.valueOf(value.get("Basket").toString());
                 Log.d("lsdlsldlsd",value.get("Basket").toString());
             }
         });
@@ -150,7 +153,9 @@ public class MyOrdersPresenter implements RecyclerViewClickListenerIncrement,
         addItemCountertReference.collection("item").document(itemID)
                 .update("productCount", itemCount - 1);
         documentReference.update("Total", total - myOrdersModelList.get(position).getItemPrice());
-        updateBasket();
+        documentReference.update("Basket", basket-1);
+
+        getBasketList();
     }
 
     @Override
@@ -164,6 +169,7 @@ public class MyOrdersPresenter implements RecyclerViewClickListenerIncrement,
                 itemID + " , " + (itemCount + 1));
 
         documentReference.update("Total", total + myOrdersModelList.get(position).getItemPrice());
-        updateBasket();
+        documentReference.update("Basket", basket+1);
+        getBasketList();
     }
 }

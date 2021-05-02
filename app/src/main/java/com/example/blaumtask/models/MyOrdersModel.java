@@ -5,18 +5,19 @@ public class MyOrdersModel {
     private String itemCategory , itemID;
     private double itemPrice ;
     private int itemCount;
-    private int itemImage;
+    private String itemImage;
     private int minus , plus , numberCounter;
 
     public MyOrdersModel(){
 
     }
 
-    public MyOrdersModel(String itemName, double itemPrice , String itemID , int itemCount){
+    public MyOrdersModel(String itemName, double itemPrice , String itemID , int itemCount,String itemImage){
         this.itemName = itemName;
         this.itemPrice = itemPrice;
         this.itemID = itemID;
         this.itemCount = itemCount;
+        this.itemImage = itemImage;
     }
 
     public String getItemName() {
@@ -43,11 +44,11 @@ public class MyOrdersModel {
         this.itemPrice = itemPrice;
     }
 
-    public int getItemImage() {
+    public String getItemImage() {
         return itemImage;
     }
 
-    public void setItemImage(int itemImage) {
+    public void setItemImage(String itemImage) {
         this.itemImage = itemImage;
     }
 

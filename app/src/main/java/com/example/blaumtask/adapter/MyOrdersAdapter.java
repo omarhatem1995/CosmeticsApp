@@ -1,6 +1,7 @@
 package com.example.blaumtask.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,10 +62,6 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.MyOrde
             @Override
             public void onClick(View view) {
                 if (Integer.parseInt(holder.numberCounter.getText().toString()) != 0) {
-
-                  /*  number = Integer.parseInt(holder.numberCounter.getText().toString()) - 1;
-                    holder.numberCounter.setText(number + "");
-                    holder.itemPrice.setText(itemPrice * number + "");*/
                     recyclerViewClickListenerDecrement.recyclerViewClickListenerDecrement(position, 0);
                 } else {
                     Toast.makeText(mContext, "Can't decrease", Toast.LENGTH_SHORT).show();
@@ -75,14 +72,10 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.MyOrde
         holder.plusImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*number = Integer.parseInt(holder.numberCounter.getText().toString()) + 1;
-                holder.numberCounter.setText(number + "");
-                holder.itemPrice.setText(itemPrice * number + "");*/
                 recyclerViewClickListenerIncrement.recyclerViewClickListenerIncrement(position, 0);
-
             }
         });
-//        holder.numberCounter.setText(number + "");
+        Log.d("Msosdlsdksd", " " + myOrdersModels.get(position).getItemImage());
         Glide.with(mContext)
                 .load(myOrdersModels.get(position).getItemImage())
                 .into(holder.itemOrders);

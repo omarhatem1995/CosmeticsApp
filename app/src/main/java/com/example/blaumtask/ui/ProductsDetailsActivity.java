@@ -1,38 +1,24 @@
 package com.example.blaumtask.ui;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.blaumtask.R;
-import com.example.blaumtask.adapter.ReviewsAdapter;
 import com.example.blaumtask.adapter.SliderAdapterFailure;
-import com.example.blaumtask.models.ReviewsModel;
 import com.example.blaumtask.presenter.productsdetailspresenter.ProductDetailsPresenter;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ProductsDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -56,7 +42,7 @@ public class ProductsDetailsActivity extends AppCompatActivity implements View.O
     private void initViews() {
         productDetailsPresenter = new ProductDetailsPresenter(this, this);
 
-        productDetailsPresenter.getUserData();
+        productDetailsPresenter.getCurrentBasket();
         backButton = findViewById(R.id.back_arrow);
         linearBackground = findViewById(R.id.background_details);
         details = findViewById(R.id.details_details);

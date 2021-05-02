@@ -7,7 +7,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,20 +15,22 @@ import com.example.blaumtask.R;
 import com.example.blaumtask.adapter.ReviewsAdapter;
 import com.example.blaumtask.models.ProductsModel;
 import com.example.blaumtask.models.ReviewsModel;
-import com.example.blaumtask.ui.ProductsDetailsActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-
-import org.w3c.dom.Text;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,7 +41,8 @@ public class ProductDetailsPresenter {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore firestore;
-    private DocumentReference documentReference , addToCartReference;
+    private DocumentReference documentReference , addToCartReference , addItemCountertReference;
+    private CollectionReference itemRef;
 
     private ReviewsAdapter reviewsAdapter;
     private List<ReviewsModel> reviewsModelList;
@@ -48,9 +50,11 @@ public class ProductDetailsPresenter {
     private TextView basketCounter, details, reviews, productPriceDetails;
     private LinearLayout linearDetails, linearButtons;
     private RecyclerView recyclerView;
-    String itemID , image , name , rating , categoryString , serialString , conditionString , price;
-    ProductsModel productsModel;
-    private long basketNumber , totalNumber;
+
+    private String itemID , image , name , rating , categoryString , serialString , conditionString , price;
+    private long basketNumber ;
+    private double totalNumber;
+    private ProductsModel productsModel;
 
     public ProductDetailsPresenter(Context context, Activity activity) {
         this.context = context;
@@ -58,6 +62,7 @@ public class ProductDetailsPresenter {
 
         mAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
+
         Intent intent = activity.getIntent();
         Bundle extras = intent.getExtras();
         itemID = extras.getString("id");
@@ -91,13 +96,11 @@ public class ProductDetailsPresenter {
         productPriceDetails = ((Activity) context).findViewById(R.id.product_price_details);
     }
 
-    public void getUserData() {
+    public void getCurrentBasket() {
         firestore.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .get().addOnCompleteListener(task -> {
             if (task.isSuccessful() && task.getResult() != null) {
-
                 basketNumber = task.getResult().getLong("Basket");
-                totalNumber = task.getResult().getLong("Total");
                 basketCounter.setText(String.valueOf(basketNumber));
                 //other stuff
             } else {
@@ -112,17 +115,56 @@ public class ProductDetailsPresenter {
 
             }
         });
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                totalNumber = Double.parseDouble(value.get("Total").toString());
+            }
+        });
     }
-
     public void addToCart() {
+        itemRef = firestore.collection("users_cart").document(mAuth.getUid()).collection("item");
+        Query query = itemRef.whereEqualTo("id", itemID);
 
-        basketNumber = basketNumber + 1;
-        documentReference.update("Total", totalNumber + Double.valueOf(productPriceDetails.getText().toString()));
-        documentReference.update("Basket", basketNumber);
-        addToCartReference.collection("item").document(itemID).set(productsModel);
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (DocumentSnapshot documentSnapshot : task.getResult()) {
+                        String item_id = documentSnapshot.getString("id");
+                        int itemCount  = Integer.parseInt(String.valueOf(documentSnapshot.getLong("productCount")));
+
+                        if (item_id.equals(itemID)) {
+                            addItemCountertReference = firestore.collection("users_cart")
+                                    .document(mAuth.getUid()).collection("item").document(itemID);
+                                    addItemCountertReference.update("productCount", itemCount + 1);
+                            basketNumber = basketNumber + 1;
+                            documentReference.update("Basket", basketNumber);
+                            Log.d("anyshit", totalNumber + " , " + productPriceDetails.getText().toString());
+                            documentReference.update("Total", totalNumber +
+                                    Double.valueOf(productPriceDetails.getText().toString()));
+
+                            Toast.makeText(context, R.string.item_is_added_successfully, Toast.LENGTH_SHORT).show();
+                            activity.finish();
+                        } else {
+                        }
+
+                    }
+                }
+                if(task.getResult().size() == 0 ){
+                    //You can store new user information here
+                    basketNumber = basketNumber + 1;
+                    documentReference.update("Total", totalNumber + Double.valueOf(productPriceDetails.getText().toString()));
+                    documentReference.update("Basket", basketNumber);
+                    addToCartReference.collection("item").document(itemID).set(productsModel);
 //        addToCartReference.set(productsModel);
-        Toast.makeText(context, R.string.item_is_added_successfully, Toast.LENGTH_SHORT).show();
-        activity.finish();
+                    Toast.makeText(context, R.string.item_is_added_successfully, Toast.LENGTH_SHORT).show();
+                    activity.finish();
+                }
+            }
+
+        });
+
     }
 
     public void reviewDetailsClick() {
