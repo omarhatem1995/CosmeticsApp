@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class ProductsDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
     private String name, price, rating, image, categoryString, serialString, conditionString , id;
-    private ImageView backButton;
+    private ImageView basketImage,backButton;
     private LinearLayout linearBackground;
     private TextView details, reviews, nameProduct, productPriceDetails, ratingDetails, serial, condition, category;
     private Button addToCart , cancelButton;
@@ -55,6 +55,7 @@ public class ProductsDetailsActivity extends AppCompatActivity implements View.O
         condition = findViewById(R.id.condition_product);
         addToCart = findViewById(R.id.addtocart);
         cancelButton = findViewById(R.id.cancel);
+        basketImage = findViewById(R.id.basket);
 
         getExtras();
 
@@ -68,6 +69,7 @@ public class ProductsDetailsActivity extends AppCompatActivity implements View.O
         addToCart.setOnClickListener(this);
         backButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
+        basketImage.setOnClickListener(this);
 
         getDefaultSlider();
 
@@ -196,6 +198,9 @@ public class ProductsDetailsActivity extends AppCompatActivity implements View.O
             case R.id.back_arrow:
             case R.id.cancel:
                 finish();
+                break;
+            case R.id.basket:
+                productDetailsPresenter.openMyOrders();
                 break;
         }
     }

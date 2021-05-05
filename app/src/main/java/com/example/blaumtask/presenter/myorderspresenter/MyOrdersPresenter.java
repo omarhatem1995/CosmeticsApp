@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.blaumtask.R;
@@ -23,6 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,14 +47,15 @@ public class MyOrdersPresenter implements RecyclerViewClickListenerIncrement,
     private MyOrdersAdapter myOrdersAdapter;
     private RecyclerView recyclerView;
 
-    private TextView totalText , basketCounter;
+    private TextView totalText , basketCounter , textNoItems;
+    private Button checkout;
 
     private Context context;
     private Activity activity;
 
     private String TAG = "MyOrdersPresenter";
-    int targetPos , basket;
-    double total;
+    private int itemCount, targetPos , basket;
+    private double total;
 
     public MyOrdersPresenter(Context context, Activity activity, MyOrdersPresenterListener myOrdersPresenterListener) {
         mAuth = FirebaseAuth.getInstance();
@@ -64,14 +68,14 @@ public class MyOrdersPresenter implements RecyclerViewClickListenerIncrement,
         recyclerView = ((Activity) context).findViewById(R.id.recyclerview_my_orders);
         totalText = ((Activity) context).findViewById(R.id.total_text);
         basketCounter = ((Activity)context).findViewById(R.id.basket_counter);
+        textNoItems = ((Activity)context).findViewById(R.id.no_items_in_the_cart);
+        checkout = ((Activity)context).findViewById(R.id.checkout);
 
         this.context = context;
         this.activity = activity;
         this.myOrdersPresenterListener = myOrdersPresenterListener;
 
     }
-
-    int itemCount;
 
     public void getBasketList() {
         myOrdersPresenterListener.showProgress();
@@ -94,13 +98,18 @@ public class MyOrdersPresenter implements RecyclerViewClickListenerIncrement,
                         myOrdersModel = new MyOrdersModel(itemName, itemPrice, itemID, itemCount,image);
                         myOrdersModelList.add(myOrdersModel);
 
-                        myOrdersPresenterListener.hideProgress();
                     }
+
                     setUpMyOrderList();
                     myOrdersAdapter = new MyOrdersAdapter(context, myOrdersModelList, MyOrdersPresenter.this::recyclerViewClickListenerIncrement, MyOrdersPresenter.this::recyclerViewClickListenerDecrement);
                     recyclerView.setAdapter(myOrdersAdapter);
                     totalTextUpdate();
                     Log.d("myItemList", " " + myOrdersModelList.size());
+                    myOrdersPresenterListener.hideProgress();
+                    if(myOrdersModelList.size()==0){
+                        checkout.setVisibility(View.GONE);
+                        textNoItems.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         });
@@ -126,6 +135,8 @@ public class MyOrdersPresenter implements RecyclerViewClickListenerIncrement,
 
     public void checkOut() {
         Intent intentCheckout = new Intent(context, CheckoutActivity.class);
+        intentCheckout.putExtra("List",(Serializable) myOrdersModelList);
+        intentCheckout.putExtra("totalNumber",String.valueOf(total));
         context.startActivity(intentCheckout);
     }
 

@@ -131,6 +131,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/my_orders_item"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/no_items_in_the_cart"
+        android:elevation="1dp"
+        android:textSize="@dimen/text_large"
+        android:textColor="@color/colorPrimary"
+        android:text="@string/no_items_in_your_cart"
+        android:layout_marginTop="120dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"
+        tools:listitem="@layout/my_orders_item"/>
 
     <TextView
         android:layout_width="wrap_content"

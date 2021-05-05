@@ -37,6 +37,11 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.MyOrde
         this.recyclerViewClickListenerDecrement = recyclerViewClickListenerDecrement;
     }
 
+    public MyOrdersAdapter(Context mContext, List<MyOrdersModel> myOrdersModels) {
+        this.mContext = mContext;
+        this.myOrdersModels = myOrdersModels;
+    }
+
     @NonNull
     @Override
     public MyOrdersAdapter.MyOrdersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -83,7 +88,10 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.MyOrde
 
     @Override
     public int getItemCount() {
-        return myOrdersModels.size();
+        if (myOrdersModels != null)
+            return myOrdersModels.size();
+        else
+            return 0;
     }
 
     public static class MyOrdersViewHolder extends RecyclerView.ViewHolder {

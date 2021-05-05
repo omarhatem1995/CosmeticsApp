@@ -1,6 +1,8 @@
 package com.example.blaumtask.models;
 
-public class MyOrdersModel {
+import java.io.Serializable;
+
+public class MyOrdersModel implements Serializable {
     private String itemName;
     private String itemCategory , itemID;
     private double itemPrice ;

@@ -28,5 +28,6 @@
     <string name="submit">Submit</string>
     <string name="or_register">Or Register</string>
     <string name="item_is_added_successfully">Item is added Successfully</string>
+    <string name="no_items_in_your_cart">No Items In Your Cart</string>
 
 </resources>

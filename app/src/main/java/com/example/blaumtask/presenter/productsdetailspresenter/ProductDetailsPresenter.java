@@ -15,6 +15,7 @@ import com.example.blaumtask.R;
 import com.example.blaumtask.adapter.ReviewsAdapter;
 import com.example.blaumtask.models.ProductsModel;
 import com.example.blaumtask.models.ReviewsModel;
+import com.example.blaumtask.ui.MyOrdersActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -165,6 +166,10 @@ public class ProductDetailsPresenter {
 
         });
 
+    }
+
+    public void openMyOrders(){
+        context.startActivity(new Intent(context, MyOrdersActivity.class));
     }
 
     public void reviewDetailsClick() {
