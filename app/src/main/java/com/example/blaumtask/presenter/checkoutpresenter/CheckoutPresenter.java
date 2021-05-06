@@ -12,9 +12,11 @@ import com.example.blaumtask.adapter.MyOrdersAdapter;
 import com.example.blaumtask.adapter.RecyclerViewClickListenerDecrement;
 import com.example.blaumtask.adapter.RecyclerViewClickListenerIncrement;
 import com.example.blaumtask.models.MyOrdersModel;
+import com.example.blaumtask.models.ProductsModel;
 import com.example.blaumtask.presenter.myorderspresenter.MyOrdersPresenter;
 import com.example.blaumtask.ui.CheckoutActivity;
 import com.example.blaumtask.ui.FinishOrderActivity;
+import com.example.blaumtask.utils.UtilFunctions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -30,6 +32,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,7 +45,7 @@ public class CheckoutPresenter implements RecyclerViewClickListenerIncrement , R
 
     private RecyclerView recyclerView;
     private TextView totalText , basketCounter;
-    private List<MyOrdersModel> list;
+    private List<MyOrdersModel> myOrdersModelList , list;
     private MyOrdersAdapter myOrdersAdapter;
 
     private String TAG = "CheckOutPresenter" , totalNumber ;
@@ -50,7 +53,7 @@ public class CheckoutPresenter implements RecyclerViewClickListenerIncrement , R
     private double total;
 
     private FirebaseAuth mAuth;
-    private DocumentReference documentReference, addItemCountertReference , deleteItemReference;
+    private DocumentReference documentReference, addItemCountertReference , addOrderReference;
     private CheckoutPresenterListener checkoutPresenterListener;
     private FirebaseFirestore firestore;
 
@@ -71,7 +74,7 @@ public class CheckoutPresenter implements RecyclerViewClickListenerIncrement , R
                 .document(mAuth.getUid());
         addItemCountertReference = firestore.collection("users_cart")
                 .document(mAuth.getUid());
-        deleteItemReference = firestore.collection("users_cart")
+        addOrderReference = firestore.collection("users_order")
                 .document(mAuth.getUid());
 
         getIntent();
@@ -102,7 +105,6 @@ public class CheckoutPresenter implements RecyclerViewClickListenerIncrement , R
 
                 basketCounter.setText(value.get("Basket").toString());
                 basket = Integer.valueOf(value.get("Basket").toString());
-                Log.d("lsdlsldlsd",value.get("Basket").toString());
             }
         });
     }
@@ -113,24 +115,46 @@ public class CheckoutPresenter implements RecyclerViewClickListenerIncrement , R
 
         recyclerView.setHasFixedSize(true);
     }
-    List<MyOrdersModel> myOrdersModelList;
     public void openFinishActivity(){
         Intent intentFinishOrder = new Intent(context, FinishOrderActivity.class);
         documentReference.update("Total", 0);
         documentReference.update("Basket", 0);
         myOrdersModelList = new ArrayList<>();
+        Random random = new Random();
 
+        long orderId =   UtilFunctions.createRandomInteger(100000000,999999999,random);
         addItemCountertReference.collection("item")
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-
-
                         String itemID = document.getData().get("id").toString();
+                        String itemCategory = document.getData().get("category").toString();
+                        String itemCondition = document.getData().get("condition").toString();
+                        String itemImage = document.getData().get("image").toString();
+                        int itemProductCount = Integer.parseInt(document.getData().get("productCount").toString());
+                        String itemProductName = document.getData().get("productName").toString();
+                        String itemProductPrice = document.getData().get("productPrice").toString();
+                        String itemRating = document.getData().get("rating").toString();
+                        String itemSerial = document.getData().get("serial").toString();
                         myOrdersModel = new MyOrdersModel(null, 0, itemID,0,null);
                         myOrdersModelList.add(myOrdersModel);
+
+                        ProductsModel productsModel = new ProductsModel();
+                        productsModel.setId(itemID);
+                        productsModel.setCategory(itemCategory);
+                        productsModel.setCondition(itemCondition);
+                        productsModel.setImage(itemImage);
+                        productsModel.setProductCount(itemProductCount);
+                        productsModel.setProductName(itemProductName);
+                        productsModel.setProductPrice(itemProductPrice);
+                        productsModel.setRating(itemRating);
+                        productsModel.setSerial(itemSerial);
+
+
+                        addOrderReference.collection(String.valueOf(orderId)).document(itemID).set(productsModel);
+
                         addItemCountertReference.collection("item").document(itemID)
                                 .update("id", FieldValue.delete());
                         addItemCountertReference.collection("item").document(itemID)
@@ -152,23 +176,14 @@ public class CheckoutPresenter implements RecyclerViewClickListenerIncrement , R
 
                     }
                     for (int i = 0 ; i < myOrdersModelList.size(); i++){
-
-                        Log.d("getModel", myOrdersModelList.get(i).getItemID());
-                        addItemCountertReference.collection("item").document( myOrdersModelList.get(i).getItemID()).delete();
+                        addItemCountertReference.collection("item")
+                                .document( myOrdersModelList.get(i).getItemID()).delete();
                     }
                 }
                 context.startActivity(intentFinishOrder);
 
             }
         });
-                /*.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Toast.makeText(activity, "Deleted Successfully", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-*/
     }
 
     public void finishActivity(){
